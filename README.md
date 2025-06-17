@@ -1,29 +1,74 @@
-Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
+# Deploying a Scalable ML Pipeline with FastAPI
 
-# Environment Set up (pip or conda)
-* Option 1: use the supplied file `environment.yml` to create a new environment with conda
-* Option 2: use the supplied file `requirements.txt` to create a new environment with pip
-    
-## Repositories
-* Create a directory for the project and initialize git.
-    * As you work on the code, continually commit changes. Trained models you want to use in production must be committed to GitHub.
-* Connect your local git repo to GitHub.
-* Setup GitHub Actions on your repo. You can use one of the pre-made GitHub Actions if at a minimum it runs pytest and flake8 on push and requires both to pass without error.
-    * Make sure you set up the GitHub Action to have the same version of Python as you used in development.
+**Project GitHub Repo:** https://github.com/wguDataNinja/Deploying-a-Scalable-ML-Pipeline-with-FastAPI
+## Project Overview
 
-# Data
-* Download census.csv and commit it to dvc.
-* This data is messy, try to open it in pandas and see what you get.
-* To clean it, use your favorite text editor to remove all spaces.
+This project builds and deploys a machine learning pipeline to predict income levels using U.S. Census data. It covers the full ML lifecycle: data processing, model training, model evaluation (including slice metrics), API deployment, automated testing, and CI/CD integration.
 
-# Model
-* Using the starter code, write a machine learning model that trains on the clean data and saves the model. Complete any function that has been started.
-* Write unit tests for at least 3 functions in the model code.
-* Write a function that outputs the performance of the model on slices of the data.
-    * Suggestion: for simplicity, the function can just output the performance on slices of just the categorical features.
-* Write a model card using the provided template.
 
-# API Creation
-*  Create a RESTful API using FastAPI this must implement:
-    * GET on the root giving a welcome message.
-    * POST that does model inference.
+## Setup
+
+1. Clone the repository:
+
+   git clone https://github.com/wguDataNinja/Deploying-a-Scalable-ML-Pipeline-with-FastAPI.git
+   cd Deploying-a-Scalable-ML-Pipeline-with-FastAPI
+
+2. Create a virtual environment and install requirements:
+
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+
+## Model Training
+
+To train the model and generate artifacts:
+
+   python train_model.py
+
+- Trains a RandomForestClassifier on data/census.csv.
+- Saves model artifacts (model.joblib, encoder.joblib, lb.joblib) to the model/ directory.
+- Generates slice evaluation metrics to slice_output.txt.
+
+## Running the API
+
+Start the FastAPI server:
+
+   uvicorn main:app --reload
+
+> Note: Keep this terminal running. Open a new terminal window to test the API while the server stays running.
+
+### Testing the API locally
+
+Run the local API test client:
+
+   python local_api.py
+
+- Sends GET and POST requests to verify API functionality.
+- Sample POST request uses a sample census record for inference.
+
+## Testing
+
+To run all unit tests:
+
+   pytest
+
+Tests include:
+
+- Data preprocessing (test_ml.py)
+- Model inference and metrics (test_ml.py)
+- API endpoints (test_api.py)
+
+## CI/CD
+
+GitHub Actions is configured to automatically run:
+
+- pytest (unit tests)
+- flake8 (code linting)
+
+CI/CD status verified as part of capstone submission (continuous_integration.png).
+
+## Author
+
+- Buddy Owens
+- WGU D501 ML Ops Project 2
+- June 2025
