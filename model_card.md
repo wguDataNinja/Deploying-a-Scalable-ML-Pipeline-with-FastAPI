@@ -49,7 +49,7 @@ Data was cleaned and encoded, then split 80/20 into train and test sets. The mod
 
 ## Intended Use
 
-This model is for demonstration only. It's not designed or validated for any real-world decision-making. Any actual use would require extensive additional testing for bias, fairness, and accuracy.
+This model is for demonstration only. Any commercial or research use would require extensive additional testing for bias, fairness, and accuracy.
 
 ## Limitations
 
